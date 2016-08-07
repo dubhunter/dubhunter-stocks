@@ -25,10 +25,10 @@ $app->get('/{symbol}', function ($symbol) {
 		return Json::error();
 	}
 	$data = json_decode($response->getBody(), true);
-	if (isset($data['list'])) {
+	if (!isset($data['list'])) {
 		return Json::error();
 	}
-	if (count($data['list']['resources'])) {
+	if (count($data['list']['resources']) === 0) {
 		return Json::notFound();
 	}
 	$fields = $data['list']['resources'][0]['resource']['fields'];
