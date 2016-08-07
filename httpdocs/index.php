@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-use Dubhunter\Talon\http\Response\Json;
+use Dubhunter\Talon\Http\Response\Json;
 use GuzzleHttp\Client;
 use Phalcon\Mvc\Micro;
 
