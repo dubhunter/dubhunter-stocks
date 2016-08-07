@@ -39,7 +39,7 @@ $app->get('/{symbol}', function ($symbol) {
 		'change_percent' => round($fields['chg_percent'], 2),
 		'day_high' => round($fields['day_high'], 2),
 		'day_low' => round($fields['day_low'], 2),
-		'volume' => $fields['volume'],
+		'volume' => intval($fields['volume']),
 	]);
 });
 
