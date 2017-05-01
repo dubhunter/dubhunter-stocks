@@ -13,41 +13,38 @@ $app->notFound(function () {
 });
 
 $app->get('/{symbol}', function ($symbol) {
-	$symbol = strtoupper($symbol);
+	$symbol = 'twlo';
 	$client = new Client();
-	$yql = 'select Symbol, LastTradePriceOnly, Change, PercentChange, DaysLow, DaysHigh, Volume from yahoo.finance.quotes where symbol = "' . $symbol . '"';
 	$response = $client->get(
-		'https://query.yahooapis.com/v1/public/yql',
+		'http://finance.google.com/finance/info',
 		[
 			'query' => [
-				'q' => $yql,
-				'format' => 'json',
-				'env' => 'store://datatables.org/alltableswithkeys',
+				'q' => strtoupper($symbol),
+				'client' => 'ig',
 			],
 		]
 	);
 	if ($response->getStatusCode() != 200) {
 		return Json::error();
 	}
-	$data = json_decode($response->getBody(), true);
-	if (!isset($data['query'])) {
+	$body = str_replace('//', '', $response->getBody());
+	$data = json_decode($body, true);
+	if (!is_array($data)) {
 		return Json::error();
 	}
-	if (!isset($data['query']['results'])) {
-		return Json::error();
-	}
-	if (!isset($data['query']['results']['quote'])) {
+	if (!isset($data[0])) {
 		return Json::notFound();
 	}
-	$fields = $data['query']['results']['quote'];
+	$fields = $data[0];
 	return Json::ok([
-		'symbol' => $fields['Symbol'],
-		'price' => round(floatval($fields['LastTradePriceOnly']), 2),
-		'change' => round(floatval($fields['Change']), 2),
-		'change_percent' => round(floatval($fields['PercentChange']), 2),
-		'day_high' => round(floatval($fields['DaysHigh']), 2),
-		'day_low' => round(floatval($fields['DaysLow']), 2),
-		'volume' => intval($fields['Volume']),
+		'symbol' => $fields['t'],
+		'price' => round(floatval($fields['l']), 2),
+		'time' => round(strtotime($fields['lt']), 2),
+		'change' => round(floatval($fields['c']), 2),
+		'change_percent' => round(floatval($fields['cp']), 2),
+		'day_high' => 0,
+		'day_low' => 0,
+		'volume' => 0,
 	]);
 });
 
