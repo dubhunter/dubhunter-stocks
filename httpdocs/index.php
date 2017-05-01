@@ -39,7 +39,7 @@ $app->get('/{symbol}', function ($symbol) {
 	return Json::ok([
 		'symbol' => $fields['t'],
 		'price' => round(floatval($fields['l']), 2),
-		'time' => round(strtotime($fields['lt']), 2),
+//		'time' => round(strtotime($fields['lt']), 2),
 		'change' => round(floatval($fields['c']), 2),
 		'change_percent' => round(floatval($fields['cp']), 2),
 		'day_high' => 0,
