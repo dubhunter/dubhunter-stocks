@@ -23,7 +23,7 @@ $app->notFound(function () {
 $app->get('/{symbol}', function ($symbol) use ($app) {
 	$client = new Client();
 	$response = $client->get(
-		'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=TWLO&apikey=UTA88F40H4IC68YB',
+		'https://www.alphavantage.co/query',
 		[
 			'query' => [
 				'apikey' => $app->getDI()->get('config')->alphavantage->key,
