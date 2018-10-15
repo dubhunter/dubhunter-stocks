@@ -26,7 +26,7 @@ $app->get('/{symbol}', function ($symbol) use ($app) {
 		'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=TWLO&apikey=UTA88F40H4IC68YB',
 		[
 			'query' => [
-				'apikey' => $app->getDI()->get('config')->aws->key,
+				'apikey' => $app->getDI()->get('config')->alphavantage->key,
 				'function' => 'GLOBAL_QUOTE',
 				'symbol' => strtoupper($symbol),
 			],
