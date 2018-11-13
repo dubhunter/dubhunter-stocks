@@ -80,6 +80,10 @@ $app->get('/{symbol}', function ($symbol) use ($app) {
 		foreach ($data[0] as $k => $v) {
 			$fields[str_replace(' ', '_', preg_replace('/^[0-9]+\. /', '', $k))] = $v;
 		}
+		if (!isset($fields['symbol'])) {
+			error_log($response->getBody());
+			return Json::error();
+		}
 		$cache->save($cacheKey, $fields, $app->getDI()->get('config')->memcache->lifetime);
 	}
 	return Json::ok([
