@@ -72,6 +72,9 @@ $app->get('/{symbol}', function ($symbol) use ($app) {
 		if (!is_array($data)) {
 			return Json::error();
 		}
+		if (isset($data['Note'])) {
+			return Json::error($data);
+		}
 		$data = array_values($data);
 		if (!isset($data[0])) {
 			return Json::notFound();
