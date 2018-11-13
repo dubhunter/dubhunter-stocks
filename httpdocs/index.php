@@ -22,7 +22,7 @@ $di->set('config', function () {
 $di->set('cache', function() use ($di) {
 	$memcacheConfig = $di->get('config')->get('memcache');
 	$frontCache = new CacheFrontend(array(
-		'lifetime' => $memcacheConfig->lifetimeModels,
+		'lifetime' => $memcacheConfig->lifetime,
 	));
 	return new Memcache($frontCache, array(
 		'servers' => array(
