@@ -87,7 +87,11 @@ $app->get('/{symbol}', function ($symbol) use ($app) {
 			error_log($response->getBody());
 			return Json::error();
 		}
-		$cache->save($cacheKey, $fields, $app->getDI()->get('config')->memcache->lifetime);
+		$date = new DateTime();
+		$date->setTimezone(new DateTimeZone('America/New_York'));
+		$hourNy = $date->format('G');
+		$lifetime = $hourNy >= 9 && $hourNy < 16 ? $app->getDI()->get('config')->memcache->lifetime_open : $app->getDI()->get('config')->memcache->lifetime_closed;
+		$cache->save($cacheKey, $fields, $lifetime);
 	}
 	return Json::ok([
 		'symbol' => $fields['symbol'],
