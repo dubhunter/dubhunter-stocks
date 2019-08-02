@@ -6,13 +6,14 @@ use Dubhunter\Talon\Http\Response\Json;
 use GuzzleHttp\Client;
 use Phalcon\Cache\Frontend\Data as CacheFrontend;
 use Phalcon\Cache\Backend\Libmemcached as Memcache;
+use Phalcon\Config\Adapter\Ini;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
 $di = new FactoryDefault();
 
 $di->set('config', function () {
-	$config = new \Phalcon\Config\Adapter\Ini('../conf/config.ini');
+	$config = new Ini('../conf/config.ini');
 	return $config;
 });
 
